@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import style from './ContactList.module.css';
 import Contact from 'components/Contact/Contact';
 
-export const ContactList = ({ contacts, onDelete }) => {
+export const ContactList = ({ contacts = [], onDelete }) => {
   const items = contacts.map(({ name, number, id }) => (
     <li className={style.item} key={id}>
       <Contact

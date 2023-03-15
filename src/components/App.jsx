@@ -1,15 +1,21 @@
 import style from './App.module.css';
+import { useEffect } from 'react';
 import Form from './Form';
 import ContactList from './ContactList';
 import Filter from './Filter';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact, deleteContact } from '../redux/contacts/contacts-slice';
 import { setFilter } from '../redux/filter/filter-slice';
 import {
   getAllContacts,
   getFilteredContacts,
 } from '../redux/contacts/contacts-selectors';
 import { getFilter } from '../redux/filter/filter-selectors';
+
+import {
+  fetchAllContacts,
+  fetchAddContact,
+  fetchDeleteContact,
+} from 'redux/contacts/contacts-operations';
 
 export default function App() {
   const contacts = useSelector(getAllContacts);
@@ -18,12 +24,16 @@ export default function App() {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchAllContacts());
+  }, [dispatch]);
+
   const onAddContact = ({ name, number }) => {
-    dispatch(addContact({ name, number }));
+    dispatch(fetchAddContact({ name, number }));
   };
 
   const onDeleteContact = id => {
-    dispatch(deleteContact(id));
+    dispatch(fetchDeleteContact(id));
   };
 
   const onChangeFilter = ({ currentTarget }) => {

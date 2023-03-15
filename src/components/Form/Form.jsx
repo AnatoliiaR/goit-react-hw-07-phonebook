@@ -2,8 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 import style from './Form.module.css';
 import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
+import { fetchAddContact } from 'redux/contacts/contacts-operations';
 
-const Form = ({ onSubmit, contacts }) => {
+const Form = () => {
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -20,20 +23,7 @@ const Form = ({ onSubmit, contacts }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    const checkName = contacts.find(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
-    );
-
-    const checkNumber = contacts.find(contact => contact.number === number);
-
-    if (checkName) {
-      return alert(`${name} is already in contacts`);
-    } else if (checkNumber) {
-      return alert(`${number} is already in contacts`);
-    }
-
-    onSubmit({ name, number });
+    dispatch(fetchAddContact({ name, number }));
 
     reset();
   };
